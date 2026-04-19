@@ -1,165 +1,93 @@
 # 🛡️ Kido — Family Safety PWA
 
-> **La seule app de sécurité familiale qui récompense la confiance plutôt que de surveiller.**
+> **La seule app de sécurité familiale cross-platform qui mise sur la confiance, pas la surveillance.**
 
-[![Status](https://img.shields.io/badge/status-MVP%20en%20cours-amber)](https://github.com/O-N-2950/kido-pwa)
-[![Platform](https://img.shields.io/badge/platform-iOS%20%2B%20Android%20PWA-blue)](https://github.com/O-N-2950/kido-pwa)
-[![License](https://img.shields.io/badge/license-proprietary-red)](https://github.com/O-N-2950/kido-pwa)
+![Version](https://img.shields.io/badge/version-2.0.0-teal) ![PWA](https://img.shields.io/badge/PWA-cross--platform-blue) ![Année](https://img.shields.io/badge/année-2026-amber) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
-## 🎯 Le problème
+## 🎯 Positionnement
 
-- **Google Family Link** → Android uniquement côté enfant
-- **Apple Screen Time** → iOS uniquement, contournable facilement
-- **Bark / Qustodio** → 99–120 CHF/an, complexes, axés surveillance
-
-**Les familles mixtes Android/iPhone n'ont rien de simple, cross-platform et abordable.**
-
----
-
-## 💡 La solution Kido
-
-Une **PWA installable en 10 secondes** sur Android ET iPhone.  
-Positionnement : **lien de confiance familial**, pas logiciel de surveillance.
-
----
-
-## ✨ 6 Features Exclusives — Inexistantes chez les concurrents
-
-### 🌡️ 1. Mood Check-in
-L'enfant partage son état émotionnel en 1 tap (😔😴😐😊🤩).  
-Le parent voit l'humeur sur la carte, pas juste un point GPS.  
-Si l'humeur baisse régulièrement → alerte douce au parent.
-
-### ⭐ 2. Trust Score (Confiance Gamifiée)
-Chaque bon comportement rapporte des points :
-- Rentré à l'heure → +5 pts
-- Check-in envoyé → +3 pts
-- Trajet suivi → +4 pts
-- Hors zone → -8 pts
-
-Plus le score monte, **moins la surveillance est intrusive**.  
-L'enfant est acteur de sa propre liberté.
-
-### ⏱️ 3. Countdown Retour
-L'enfant envoie "20 min" en 1 tap → timer live côté parent.  
-Si le timer expire sans arrivée → **alerte automatique**.
-
-### 🤫 4. SOS Discret
-Agiter le téléphone 3× ou appuyer sur le bouton volume → alerte silencieuse envoyée aux parents avec GPS.  
-**Aucune notification visible sur l'écran de l'enfant.**  
-Pour les situations où l'enfant ne peut pas montrer qu'il envoie une alerte.
-
-### 🗺️ 5. Trajet Intelligent
-Après 5 trajets identiques, Kido crée un "couloir de trajet".  
-Déviation > 200m → **alerte immédiate**.  
-Accélération soudaine (véhicule ?) → alerte prioritaire.
-
-### 👴 6. Cercle Élargi
-Accès lecture seule pour les proches de confiance (grands-parents, oncles...).  
-Notification automatique quand l'enfant arrive dans une zone clé.  
-Révocable en 1 clic par le parent.
+| | Google Family Link | Apple Screen Time | **Kido** |
+|---|---|---|---|
+| Cross-platform (Android + iOS) | ❌ Enfant Android only | ❌ iOS only | ✅ |
+| Gratuit | ✅ | ✅ | Freemium |
+| GPS temps réel | ✅ basique | ❌ | ✅ avancé |
+| Mood Check-in émotionnel | ❌ | ❌ | ✅ **Exclusif** |
+| Trust Score / autonomie gamifiée | ❌ | ❌ | ✅ **Exclusif** |
+| Countdown retour temps réel | ❌ | ❌ | ✅ **Exclusif** |
+| SOS Discret (silencieux) | ❌ | ❌ | ✅ **Exclusif** |
+| Trajet Intelligent (IA) | ❌ | ❌ | ✅ **Exclusif** |
+| Cercle Élargi (grands-parents) | ❌ | ❌ | ✅ **Exclusif** |
 
 ---
 
-## 🏗️ Architecture Technique
+## ✨ 6 Features Exclusives
+
+### 🌡️ Mood Check-in
+L'enfant partage son état émotionnel en 1 tap (😔😴😐😊🤩). Le parent voit l'humeur sur la carte, pas juste un point GPS. Si l'humeur baisse régulièrement le même jour → alerte douce.
+
+### ⭐ Trust Score
+Système de confiance gamifié. Chaque bon comportement rapporte des points. Plus le score monte → moins la surveillance est intrusive. L'enfant gagne sa liberté.
+
+### ⏱️ Countdown Retour
+L'enfant envoie "je rentre dans 20 min". Un timer live apparaît chez le parent. Si expiré sans arrivée → alerte automatique.
+
+### 🤫 SOS Discret
+3 secousses du téléphone ou bouton volume → alerte silencieuse GPS aux parents. Aucune notification visible sur l'écran de l'enfant.
+
+### 🗺️ Trajet Intelligent
+Après 5 trajets identiques, Kido crée un couloir de trajet. Déviation > 200m → alerte immédiate. Accélération soudaine (véhicule ?) → alerte prioritaire.
+
+### 👴 Cercle Élargi
+Accès lecture seule pour les proches de confiance. Mamie voit la position de Zoé sans avoir les contrôles parentaux. Révocable en 1 clic.
+
+---
+
+## 💰 Modèle tarifaire (CHF)
+
+| Plan | Prix | Stripe net |
+|---|---|---|
+| Free | 0 | — |
+| Essentiel | 29 CHF/an | 28.26 CHF |
+| Famille | 59 CHF/an | 57.52 CHF |
+| B2B Écoles | 199–499 CHF/an | négocié |
+
+> Facturation annuelle uniquement — réduit la commission Stripe de 11.4% → 2.5%
+
+---
+
+## 🏗️ Stack Technique
 
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   PWA Parent    │────▶│  FastAPI Backend  │────▶│   PostgreSQL    │
-│  React + Vite   │     │  WebSocket Live   │     │   (Railway)     │
-└─────────────────┘     └──────────────────┘     └─────────────────┘
-                                │
-                    ┌───────────┴───────────┐
-                    │                       │
-             ┌──────▼──────┐        ┌───────▼──────┐
-             │  PWA Enfant  │        │  Firebase FCM │
-             │ React + Vite │        │  Push Android │
-             └─────────────┘        │    + iOS      │
-                                    └──────────────┘
-```
-
-| Couche | Tech | Note |
-|--------|------|------|
-| Frontend | React + Vite | Une codebase, deux interfaces (parent/enfant) |
-| Backend | FastAPI (Python) | REST + WebSocket temps réel |
-| Base de données | PostgreSQL | Hébergé Railway |
-| Realtime | Socket.IO | GPS toutes les 30s |
-| Push | Firebase FCM | Android + iOS via PWA |
-| Hosting | Railway | Stack Groupe NEO |
-| Paiement | Stripe | Facturation annuelle uniquement |
-
----
-
-## 💰 Modèle Business
-
-| Plan | Prix | Stripe net | Cible |
-|------|------|-----------|-------|
-| **Free** | 0 CHF | — | 1 enfant, GPS basique |
-| **Starter** | 29 CHF/an | ~28.26 CHF | 2 enfants, géofencing |
-| **Family** | 59 CHF/an | ~57.75 CHF | 5 enfants, toutes features |
-| **B2B École** | 199–499 CHF/an | custom | Centres aérés, écoles |
-
-> ⚡ **Facturation annuelle uniquement** — réduit la commission Stripe de 11.4% → 2.5%
-
----
-
-## 📅 Roadmap MVP — 6 Semaines
-
-| Sprint | Objectif |
-|--------|----------|
-| **S1–S2** | Backend FastAPI + PostgreSQL + Auth JWT familles |
-| **S3** | PWA Parent — carte, alertes, géofencing, Trust Score |
-| **S4** | PWA Enfant — GPS, Mood Check-in, Countdown, SOS Discret |
-| **S5** | Push FCM, Trajet Intelligent, Cercle Élargi, tests iOS/Android |
-| **S6** | Stripe billing annuel, landing page, beta 10 familles |
-
----
-
-## 🎯 Marché Cible
-
-- 🇨🇭 **Suisse** — 500k+ familles 8–14 ans (lancement)
-- 🇫🇷 **France** — marché 10× plus grand (phase 2)
-- 🇧🇪 **Belgique** — francophone (phase 2)
-- **Synergie Groupe NEO** — distribution via PEP's + bundle WIN WIN assurance famille
-
----
-
-## 🚀 Lancer la démo
-
-```bash
-# Cloner le repo
-git clone https://github.com/O-N-2950/kido-pwa.git
-cd kido-pwa
-
-# Installer les dépendances
-npm install
-
-# Lancer en dev
-npm run dev
+Frontend  → React + Vite (PWA)
+Backend   → FastAPI (Python)
+DB        → PostgreSQL
+Realtime  → Socket.IO (GPS toutes les 30s)
+Push      → Firebase FCM (Android + iOS)
+Hosting   → Railway
+Payments  → Stripe (annuel)
 ```
 
 ---
 
-## 📁 Structure du projet
+## 📅 Roadmap 2026
 
-```
-kido-pwa/
-├── src/
-│   ├── demo/
-│   │   └── kido-v2.jsx          # Démo interactive complète (React)
-│   ├── parent/                  # Interface parent (à venir)
-│   ├── child/                   # Interface enfant (à venir)
-│   └── backend/                 # FastAPI (à venir)
-├── public/
-│   └── manifest.json            # PWA manifest
-└── README.md
-```
+- [x] Démo interactive V2 (React)
+- [ ] Backend FastAPI + Auth JWT familles
+- [ ] PWA Parent — carte, alertes, géofencing
+- [ ] PWA Enfant — GPS share, mood, SOS discret
+- [ ] Push notifications FCM iOS + Android
+- [ ] Stripe billing annuel
+- [ ] Beta 10 familles
+- [ ] Launch public
 
 ---
 
-## 📄 Licence
+## 🔗 Synergie Groupe NEO
 
-Projet propriétaire — Groupe NEO © 2025  
-Tous droits réservés.
+Distribution via **PEP's** (marchands locaux → familles) · Bundle **WIN WIN** assurance famille · Canaux existants = coût acquisition quasi nul.
+
+---
+
+*Kido — Pas un logiciel de surveillance. Un lien de confiance.*
