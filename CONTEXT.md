@@ -1,31 +1,54 @@
 # KIDO — Contexte Projet
+> Mis à jour : Session 3 — Analyse complète 58 repos
 
-> Mis à jour à chaque session Claude.
+## État : SCAFFOLD V2 COMPLET + LUNA + VOICE
 
-## État actuel : SCAFFOLD COMPLET — Phase MVP
-- ✅ Monorepo TypeScript (shared + server + client)
-- ✅ DB Schema complet (Drizzle — 12 tables)
-- ✅ Backend Express + Socket.io
-- ✅ Auth JWT avec révocation (token_version)
-- ✅ Trust Score service
-- ✅ Geofence service (Haversine)
-- ✅ Routes: auth, family, location, child
-- ⏳ Client React PWA — À CONSTRUIRE
-- ⏳ Firebase FCM push notifications
-- ⏳ Stripe billing (plan annual)
-- ⏳ Tests
+### ✅ Livré
+- Monorepo TypeScript (shared + server)
+- DB Schema complet 12 tables (Drizzle + PostgreSQL)
+- Backend Express + Socket.io + JWT révocable
+- Auth: register, login, add-child (PIN 6 chiffres)
+- Routes: family dashboard, GPS location, child actions
+- Trust Score engine (applyTrustAction)
+- Geofence Haversine service
+- 🆕 Luna — Agent gardien IA (pattern winwin-v2 agents)
+- 🆕 VoiceCheck-in (Deepgram + Claude Haiku)
+- 🆕 Crash Monitor (pattern swissrh)
+- 🆕 Capacitor targets (iOS/Android background GPS)
 
-## Best practices extraites des repos NEO
-- boom-contact: Drizzle, tRPC pattern, Socket.io rooms, Zod validation, JWT token_version, helmet, rate limiting, Dockerfile multi-stage
-- umbra: magic link auth option, Alembic-style migrations, Sentry monitoring
-- kombo-api: graceful degradation sans DB
-- neo-watcher: health check pattern /health
+### ⏳ Prochaine étape : CLIENT React PWA
 
-## Décisions techniques
-- TypeScript full-stack (pas Python) → boom-contact prouve que c'est fiable sur Railway
-- Socket.io rooms par famille → isolation des données parfaite
-- Drizzle ORM → type-safe, migrations SQL propres
-- Facturation annuelle uniquement → Stripe 2.5% vs 11.4% mensuel
+## Best Practices extraites — 58 repos analysés
 
-## Prochaine étape
-Builder le client React PWA avec l'UX exceptionnel défini.
+| Repo | Pattern extrait | Utilisé dans Kido |
+|------|----------------|-------------------|
+| boom-contact | Drizzle ORM, Socket.io, JWT token_version, helmet, rate-limit, Dockerfile multi-stage | ✅ Tout |
+| winwin-v2 | Multi-agent system (Tina/Sophie/etc.), LLM router, crash monitor | ✅ Luna agent |
+| winwin-voice-agent | Deepgram STT + Anthropic + Cartesia TTS pipeline | ✅ VoiceCheck |
+| planneo | useVoiceAgent hook React, VAD, audio queue | 🔜 Client |
+| peps-v2-pwa | Capacitor iOS/Android, Face ID, Framer Motion | 🔜 Client |
+| swissrh | SSO cross-app JWT, Crash Monitor, Infomaniak Jelastic | ✅ Monitor + 🔜 PEP's SSO |
+| umbra/merito | Swiss hosting nLPD, AES-256, Magic link | ✅ Architecture |
+| soluris | pgvector + Cohere embeddings comportementaux | 🔜 Luna v2 |
+| moneasy | HMAC cross-app, Magic link, WebAuthn | 🔜 Auth v2 |
+| wolf-saas | Magic token, pgEnum, Drizzle pattern | ✅ Schema |
+| tournepage | PII architecture, S3 Infomaniak, docx | 🔜 Export |
+| devispro | Claude Vision OCR, S3 | 🔜 Feature |
+| neo-synergy-hub | Manifeste inter-apps | 🔜 Distribution |
+
+## Idées révolutionnaires validées (niveau suivant)
+1. 🤖 Luna — IA guardian, pattern multi-agents winwin-v2
+2. 🎙️ VoiceCheck — "Je rentre dans 20 min" → AI parse
+3. 📱 Capacitor — GPS background natif iOS/Android
+4. 🔗 PEP's SafeNetwork — commerçants = zones sécurisées
+5. 🧠 Behavioral Memory — pgvector + profil comportemental
+6. 🇨🇭 Swiss-by-Design — Infomaniak Jelastic nLPD
+7. 🎭 Face ID Auth — WebAuthn pour parents (pattern moneasy)
+
+## Variables env requises
+DATABASE_URL, JWT_SECRET, PORT
+ANTHROPIC_API_KEY (Luna + VoiceCheck)
+DEEPGRAM_API_KEY (transcription vocale)
+FIREBASE_* (push FCM)
+STRIPE_SECRET_KEY (billing annuel)
+RESEND_API_KEY (emails)
