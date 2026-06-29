@@ -4,13 +4,11 @@
 // Luna observe les comportements, détecte les anomalies,
 // PROPOSE aux parents — ne décide jamais seule.
 // ============================================================
-import Anthropic from '@anthropic-ai/sdk';
 import { db, schema } from '../db/index.js';
 import { eq, desc, sql, and, gte } from 'drizzle-orm';
 import { applyTrustAction } from '../services/trust.service.js';
+import { aiComplete } from '../services/ai.service.js';
 import type { Server as SocketServer } from 'socket.io';
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 export interface LunaObservation {
   childId: string;
@@ -37,7 +35,7 @@ export async function lunaDaily(familyId: string, io: SocketServer): Promise<Lun
 
   if (observations.length > 0) {
     // Summarize with Claude
-    const summary = await lunaReport(observations);
+    const summary = await lunaReport(observations, familyId);
     io.to(`family:${familyId}`).emit('luna:daily', { observations, summary, at: new Date().toISOString() });
   }
 
@@ -119,29 +117,22 @@ async function analyzeChild(child: typeof schema.users.$inferSelect, familyId: s
   return observations;
 }
 
-// ── Luna summarizes with Claude
-async function lunaReport(observations: LunaObservation[]): Promise<string> {
-  if (!process.env.ANTHROPIC_API_KEY) return '';
-
-  try {
-    const response = await anthropic.messages.create({
-      model: 'claude-haiku-4-5',
-      max_tokens: 300,
-      system: `Tu es Luna, l'agent gardien bienveillant de Kido. 
-Tu analyses les observations sur les enfants d'une famille et tu formules un résumé parental 
-chaleureux, bienveillant et actionnable en 2-3 phrases maximum. 
+// ── Luna résume via l'IA souveraine Infomaniak (fallback Anthropic) + KPI
+async function lunaReport(observations: LunaObservation[], familyId?: string): Promise<string> {
+  return aiComplete({
+    feature: 'luna_daily_report',
+    familyId,
+    maxTokens: 300,
+    system: `Tu es Luna, l'agent gardien bienveillant de VIVOkid.
+Tu analyses les observations sur les enfants d'une famille et tu formules un résumé parental
+chaleureux, bienveillant et actionnable en 2-3 phrases maximum.
 Tu ne juges pas. Tu proposes. Tu rassures quand c'est possible.
 Tu t'exprimes en français, avec douceur et précision.`,
-      messages: [{
-        role: 'user',
-        content: `Voici les observations de la soirée:\n${JSON.stringify(observations, null, 2)}\n\nRédige un résumé bienveillant pour les parents.`,
-      }],
-    });
+    user: `Voici les observations de la soirée:
+${JSON.stringify(observations, null, 2)}
 
-    return response.content[0].type === 'text' ? response.content[0].text : '';
-  } catch {
-    return '';
-  }
+Rédige un résumé bienveillant pour les parents.`,
+  });
 }
 
 // ── Luna real-time: called on each GPS update for instant anomaly detection
