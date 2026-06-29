@@ -49,6 +49,20 @@ const http = createServer(app);
 app.disable('x-powered-by');
 app.set('trust proxy', 1); // Railway + Infomaniak Jelastic
 
+// ── Redirection HTTP → HTTPS (le LB pose X-Forwarded-Proto=https sur le 443 ; absent sur le 80) ──
+app.use((req, res, next) => {
+  const proto = req.get('x-forwarded-proto');
+  const host = (req.headers.host || '').split(':')[0];
+  if (process.env.FORCE_HTTPS !== 'false'
+      && proto !== 'https'
+      && /(^|\.)vivokid\.ch$/i.test(host)
+      && req.path !== '/health'
+      && !req.path.startsWith('/.well-known/')) {
+    return res.redirect(301, 'https://' + req.headers.host + req.originalUrl);
+  }
+  next();
+});
+
 // ── Socket.io ─────────────────────────────────────────────────
 export const io = new SocketServer(http, {
   cors: { origin: ALLOWED_ORIGINS, credentials: true },
