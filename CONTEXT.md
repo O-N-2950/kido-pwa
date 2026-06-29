@@ -18,8 +18,10 @@
 - Tarifs intégrés (CHF/1M tokens) : mistral3 0.30 in / 0.40 out → un résumé Luna ≈ **0.00006 CHF**.
 - Secrets uniquement en **variables d'env Jelastic** (jamais dans le repo) : INFOMANIAK_AI_PRODUCT_ID, INFOMANIAK_AI_MODEL, INFOMANIAK_AI_TOKEN, ANTHROPIC_API_KEY (fallback), DATABASE_URL, JWT_SECRET, SMTP_*.
 
+## Fait récemment
+- ✅ Redirection **301 http→https** (middleware Node via X-Forwarded-Proto, exclut /health et /.well-known — pérenne, survit aux régénérations nginx). Désactivable via FORCE_HTTPS=false.
+
 ## Prochaines étapes possibles
-- Redirection http→https sur le LB (canonical SEO).
 - Brancher d'autres features sur `aiComplete()` au besoin.
 
 ---
