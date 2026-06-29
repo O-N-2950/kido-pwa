@@ -24,6 +24,9 @@ import { createLocationRouter } from './routes/location.js';
 import { createChildRouter }    from './routes/child.js';
 import { createVoiceRouter }    from './routes/voice.js';
 import { startCrashMonitor, getMonitorStatus } from './monitoring/crash-monitor.js';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 const PORT     = parseInt(process.env.PORT || '3000', 10);
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -113,6 +116,25 @@ app.use('/api/family',   familyRouter);
 app.use('/api/location', createLocationRouter(io));
 app.use('/api/child',    createChildRouter(io));
 app.use('/api/voice',    createVoiceRouter(io));
+
+// ── Serve built PWA client (SPA) ───────────────────────────────
+const __dir = path.dirname(fileURLToPath(import.meta.url));
+const clientDist = [
+  path.resolve(__dir, '../../client/dist'),
+  path.resolve(process.cwd(), 'client/dist'),
+  path.resolve(process.cwd(), '../client/dist'),
+].find((p) => fs.existsSync(path.join(p, 'index.html')));
+if (clientDist) {
+  const cd: string = clientDist;
+  app.use(express.static(cd));
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' || req.path.startsWith('/api') || req.path === '/health' || req.path.startsWith('/socket.io')) return next();
+    res.sendFile(path.join(cd, 'index.html'));
+  });
+  console.log(`🖥️  PWA servi depuis ${cd}`);
+} else {
+  console.warn('⚠️  client/dist introuvable — PWA non servi');
+}
 
 // ── 404 + Error handler ────────────────────────────────────────
 app.use((_req, res) => res.status(404).json({ error: 'Not found' }));
