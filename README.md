@@ -1,10 +1,12 @@
-# 🛡️ Kido — Family Safety PWA
+# 🛡️ VIVOkid — Family Safety PWA
 
-> **La seule app de sécurité familiale qui récompense la confiance plutôt que de surveiller.**
+> **La famille, connectée avec confiance.**  
+> La première app de sécurité familiale cross-platform qui récompense la confiance plutôt que de surveiller.
 
-[![Status](https://img.shields.io/badge/status-MVP%20en%20cours-amber)](https://github.com/O-N-2950/kido-pwa)
-[![Platform](https://img.shields.io/badge/platform-iOS%20%2B%20Android%20PWA-blue)](https://github.com/O-N-2950/kido-pwa)
-[![License](https://img.shields.io/badge/license-proprietary-red)](https://github.com/O-N-2950/kido-pwa)
+[![Domain](https://img.shields.io/badge/domain-vivokid.ch-teal)](https://vivokid.ch)
+[![Platform](https://img.shields.io/badge/platform-iOS%20%2B%20Android%20PWA-blue)](https://vivokid.ch)
+[![Status](https://img.shields.io/badge/status-MVP%20backend%20livré-amber)](https://github.com/O-N-2950/kido-pwa)
+[![Made in Switzerland](https://img.shields.io/badge/made%20in-🇨🇭%20Jura%20Switzerland-red)](https://vivokid.ch)
 
 ---
 
@@ -14,41 +16,49 @@
 - **Apple Screen Time** → iOS uniquement, contournable facilement
 - **Bark / Qustodio** → 99–120 CHF/an, complexes, axés surveillance
 
-**Les familles mixtes Android/iPhone n'ont rien de simple, cross-platform et abordable.**
+**Les familles mixtes Android/iPhone n'ont rien de simple, cross-platform, abordable — et qui respecte l'enfant.**
 
 ---
 
-## 💡 La solution — Kido
+## 💡 VIVOkid — la différence
 
-Une **PWA installable** sur Android ET iPhone, sans app store.  
-Positionnement : **lien de confiance familial**, pas un logiciel de surveillance.
+VIVOkid n'est pas une app de surveillance. C'est le premier **protocole de confiance familiale**.
+
+*VIVO* = vie, vivant (universel FR/DE/IT/EN)  
+*Kid* = enfant (universel)  
+→ La vie de famille, pleinement vécue.
 
 ---
 
 ## ✨ 6 Features Exclusives — absentes chez tous les concurrents
 
-### 🌡️ 1. Mood Check-in
-L'enfant partage son état émotionnel en 1 tap (😔😴😐😊🤩).  
-Le parent voit **comment va l'enfant**, pas juste où il est.  
-Si l'humeur baisse régulièrement le même jour → alerte douce au parent.
+| Feature | Qu'est-ce que c'est | Concurrents |
+|---------|---------------------|-------------|
+| 🌡️ **Mood Check-in** | L'enfant partage son humeur en 1 tap. Parent voit l'état émotionnel, pas juste la position GPS. | ❌ Aucun |
+| ⭐ **Trust Score** | Gamification positive : bons comportements → points → plus de liberté. L'enfant est acteur. | ❌ Aucun |
+| ⏱️ **Countdown Retour** | "Je rentre dans 20 min" → timer live côté parent. Expire = alerte automatique. | ❌ Aucun |
+| 🤫 **SOS Discret** | 3 secousses ou bouton volume → alerte silencieuse aux parents. Rien n'apparaît à l'écran. | ❌ Aucun |
+| 🗺️ **Trajet Intelligent** | Apprend le trajet habituel. Déviation > 200m = alerte. Vitesse véhicule = alerte prioritaire. | ❌ Aucun |
+| 👴 **Cercle Élargi** | Grands-parents et proches en lecture seule. Révocable en 1 clic. | ❌ Aucun |
 
-### ⭐ 2. Trust Score — Confiance Gamifiée
-Chaque bon comportement rapporte des points. Plus le score monte → plus l'enfant gagne de liberté.  
-Bark et Qustodio punissent. **Kido récompense.**
+---
 
-### ⏱️ 3. Countdown Retour
-L'enfant envoie "je rentre dans 20 min" en 1 tap.  
-Un timer live apparaît sur le dashboard parent. Si le timer expire → alerte automatique.
+## 🤖 Luna — L'Agent Gardien IA
 
-### 🤫 4. SOS Discret
-Alerte silencieuse par 3 secousses ou bouton volume.  
-Aucune notification visible sur l'écran de l'enfant.
+Inspiré du système multi-agents de WIN WIN Finance (Tina, Sophie, Emma...).  
+Luna observe les patterns comportementaux chaque soir et **propose** — sans jamais décider :
 
-### 🗺️ 5. Trajet Intelligent
-Couloir de trajet appris automatiquement. Déviation > 200m → alerte immédiate.
+- *"Emma est systématiquement moins heureuse le lundi depuis 3 semaines"*
+- *"Noah n'a plus envoyé de check-in depuis 4 jours"*
+- *"Le score de confiance de Zoé baisse cette semaine"*
 
-### 👴 6. Cercle Élargi
-Accès lecture seule pour grands-parents et proches de confiance.
+---
+
+## 🎙️ VoiceCheck — Check-in vocal
+
+L'enfant dit simplement : *"Je rentre, j'arrive dans 20 minutes"*  
+→ Deepgram transcrit, Claude Haiku extrait l'ETA, le countdown démarre.  
+Zéro tap. Zéro friction.
 
 ---
 
@@ -57,44 +67,64 @@ Accès lecture seule pour grands-parents et proches de confiance.
 | Plan | Prix | Features |
 |------|------|----------|
 | **Free** | 0 CHF | 1 enfant, GPS basique |
-| **Family** | 29 CHF/an | 3 enfants, toutes les features |
-| **Pro** | 59 CHF/an | Enfants illimités, Cercle Élargi |
-| **B2B École** | 199–499 CHF/an | Multi-familles |
+| **Family** | 29 CHF/an | 3 enfants + toutes les features |
+| **Pro** | 59 CHF/an | Enfants illimités + Cercle Élargi |
+| **B2B École** | 199–499 CHF/an | Dashboard multi-familles |
 
-> Facturation annuelle → Stripe prend 2.5% au lieu de 11.4% en mensuel.
-
----
-
-## 🏗️ Stack Technique
-
-- **Frontend** : React + Vite (PWA)
-- **Backend** : FastAPI (Python)
-- **DB** : PostgreSQL
-- **Realtime** : WebSocket
-- **Notifications** : Firebase FCM
-- **Hosting** : Railway
-- **Billing** : Stripe (annuel)
+> Facturation annuelle → Stripe 2.5% au lieu de 11.4% en mensuel.
 
 ---
 
-## 📅 Roadmap MVP — 8 semaines
+## 🏗️ Architecture — NEO Best Practices (58 repos analysés)
 
-| Semaine | Étape |
-|---------|-------|
-| S1–2 | Backend FastAPI + PostgreSQL + Auth JWT |
-| S3 | PWA Parent — carte, alertes, géofencing |
-| S4 | PWA Enfant — GPS share, Mood, Countdown, SOS |
-| S5 | Trust Score engine + historique |
-| S6 | Push notifications FCM (iOS + Android) |
-| S7 | Stripe billing annuel + landing page |
-| S8 | Beta 10 familles → itération |
+```
+VIVOkid Stack
+
+Frontend  → React 18 + Vite + TypeScript + TailwindCSS + Framer Motion
+Mobile    → Capacitor iOS/Android (GPS background natif)
+Backend   → Express + TypeScript + Socket.io (rooms family:{id})
+DB        → PostgreSQL + Drizzle ORM (12 tables)
+Auth      → JWT + token_version révocable + Magic Link
+AI        → Anthropic SDK (Luna + VoiceCheck)
+Voice     → Deepgram STT
+Email     → SMTP Infomaniak (contact@vivokid.ch) + Resend fallback
+Push      → Firebase FCM
+Billing   → Stripe annual
+Hosting   → Infomaniak Jelastic CH (souveraineté nLPD)
+Monitor   → /health + Crash Monitor + neo-watcher
+```
 
 ---
 
-## ⚖️ Comparatif concurrence
+## 📁 Structure
 
-| Feature | Family Link | Screen Time | Bark | Qustodio | **Kido** |
-|---------|-------------|-------------|------|----------|----------|
+```
+vivokid/
+├── shared/                 ← Types + Zod schemas (FR/DE/IT/EN)
+│   ├── types/index.ts      ← MOOD_MAP, TRUST_LEVELS, TRUST_ACTIONS
+│   └── schemas/index.ts    ← 9 schémas Zod validés
+├── server/                 ← Backend TypeScript
+│   └── src/
+│       ├── agents/luna.ts  ← 🤖 Agent gardien IA
+│       ├── db/schema.ts    ← 12 tables PostgreSQL
+│       ├── middleware/auth.ts ← JWT + révocation token_version
+│       ├── monitoring/     ← Crash Monitor (pattern swissrh)
+│       ├── routes/         ← auth, family, location, child, voice
+│       └── services/       ← trust, geofence, email (SMTP), voice
+├── src/demo/
+│   └── kido-v2.jsx         ← Démo interactive (6 features)
+├── CLAUDE.md               ← Instructions Claude
+├── CONTEXT.md              ← État projet (mis à jour chaque session)
+├── Dockerfile              ← Multi-stage, Railway-ready
+└── railway.toml            ← Health check + restart policy
+```
+
+---
+
+## ⚖️ Comparatif
+
+| Feature | Family Link | Screen Time | Bark | Qustodio | **VIVOkid** |
+|---------|:-----------:|:-----------:|:----:|:--------:|:-----------:|
 | Cross-platform | ❌ | ❌ | ✅ | ✅ | ✅ |
 | Mood Check-in | ❌ | ❌ | ❌ | ❌ | **✅** |
 | Trust Score | ❌ | ❌ | ❌ | ❌ | **✅** |
@@ -102,27 +132,21 @@ Accès lecture seule pour grands-parents et proches de confiance.
 | SOS Discret | ❌ | ❌ | ❌ | ❌ | **✅** |
 | Trajet Intelligent | ❌ | ❌ | ❌ | ❌ | **✅** |
 | Cercle Élargi | ❌ | ❌ | ❌ | ❌ | **✅** |
+| Agent IA (Luna) | ❌ | ❌ | ❌ | ❌ | **✅** |
+| Voice Check-in | ❌ | ❌ | ❌ | ❌ | **✅** |
+| Swiss hosting nLPD | ❌ | ❌ | ❌ | ❌ | **✅** |
 | Prix | Gratuit | Gratuit | 99$/an | 55$/an | **29 CHF/an** |
-
----
-
-## 📁 Structure
-
-```
-kido-pwa/
-├── src/
-│   └── demo/
-│       ├── kido-v1.jsx     # Prototype initial
-│       └── kido-v2.jsx     # Demo V2 — 6 features exclusives ★
-└── README.md
-```
 
 ---
 
 ## 🔗 Synergie Groupe NEO
 
-Distribution via **PEP's** et **WIN WIN Finance** — coût d'acquisition quasi nul.
+- **PEP's** — réseau commerçants → SafeNetwork zones de confiance
+- **WIN WIN Finance** — bundle assurance famille
+- **SwissRH** — SSO cross-app (pattern swissrh)
+- **MonEasy** — HMAC cross-app (pattern moneasy)
 
 ---
 
-*Kido — Groupe NEO © 2025. Tous droits réservés.*
+*VIVOkid — vivokid.ch · contact@vivokid.ch*  
+*PEP's Swiss SA · Jura, Suisse 🇨🇭*

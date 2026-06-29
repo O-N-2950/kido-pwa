@@ -1,54 +1,77 @@
-# KIDO — Contexte Projet
-> Mis à jour : Session 3 — Analyse complète 58 repos
+# VIVOKID — Contexte Projet
+> Mis à jour : Session 4 — Domaine vivokid.ch acheté, identité VIVOkid confirmée
 
-## État : SCAFFOLD V2 COMPLET + LUNA + VOICE
+## 🏷️ IDENTITÉ OFFICIELLE
+- **Nom** : VIVOkid
+- **Domaine** : vivokid.ch (acheté sur Infomaniak)
+- **Email** : contact@vivokid.ch (SMTP Infomaniak, configuré)
+- **Entité** : PEP's Swiss SA, Jura, Suisse 🇨🇭
+- **Tagline** : "La famille, connectée avec confiance"
+- **Ancien nom** : Kido (nom de travail, abandonné — kido.ch était pris)
 
-### ✅ Livré
+## 📧 SMTP Infomaniak (NE PAS committer en clair)
+- Host : mail.infomaniak.com:465 (SSL)
+- User : contact@vivokid.ch
+- Pass : → dans /mnt/project/mot_de_passe_e-mail_infomaniak_contact_vivokid.ch
+- Quota : 200 emails/24h (comme peps-v2-pwa — Resend en fallback)
+
+## 🏗️ Infrastructure (Infomaniak + Railway)
+- Railway token : → /mnt/project/Token_Railway
+- Infomaniak token : → /mnt/project/Token_infomaniak
+- OpenStack Infomaniak : Cristal4you11++
+- Jelastic full access : c1aca6923e824434b37a808a5f67f788542cee62
+- Hébergement cible : Infomaniak Jelastic CH (nLPD — comme swissrh, umbra)
+
+## ✅ État actuel : BACKEND COMPLET — CLIENT PWA À CONSTRUIRE
+
+### Livré
 - Monorepo TypeScript (shared + server)
-- DB Schema complet 12 tables (Drizzle + PostgreSQL)
-- Backend Express + Socket.io + JWT révocable
-- Auth: register, login, add-child (PIN 6 chiffres)
-- Routes: family dashboard, GPS location, child actions
-- Trust Score engine (applyTrustAction)
-- Geofence Haversine service
-- 🆕 Luna — Agent gardien IA (pattern winwin-v2 agents)
-- 🆕 VoiceCheck-in (Deepgram + Claude Haiku)
-- 🆕 Crash Monitor (pattern swissrh)
-- 🆕 Capacitor targets (iOS/Android background GPS)
+- DB Schema 12 tables Drizzle + PostgreSQL
+- Backend Express + Socket.io + JWT révocable (token_version)
+- Auth : register parent, login, add-child (PIN 6 chiffres)
+- Routes : family dashboard, GPS location, child actions
+- Trust Score engine (applyTrustAction, 10 actions définies)
+- Geofence Haversine service (enter/exit detection)
+- 🤖 Luna — Agent gardien IA (pattern winwin-v2 agents)
+- 🎙️ VoiceCheck — Deepgram STT + Claude Haiku parse ETA
+- 🔍 Crash Monitor — heartbeat 5min, alerte dégradation (pattern swissrh)
+- 📧 Email service — SMTP Infomaniak + Resend fallback + 3 templates (welcome, SOS, Luna)
+- 🚀 Railway-ready (Dockerfile multi-stage, railway.toml, /health)
 
-### ⏳ Prochaine étape : CLIENT React PWA
+### ⏳ À construire
+- Client React PWA (Vite + TailwindCSS + Framer Motion)
+- Interface Parent : dashboard, carte GPS, alertes, négociations
+- Interface Enfant : mood, countdown, SOS discret, check-ins vocaux
+- Interface Luna : rapport quotidien, historique patterns
+- Capacitor iOS/Android (GPS background)
+- Stripe billing annuel (29/59 CHF)
+- Firebase FCM push notifications
+- Tests Vitest
 
-## Best Practices extraites — 58 repos analysés
+## 🎯 6 Features Exclusives
+1. 🌡️ Mood Check-in → POST /api/child/mood
+2. ⭐ Trust Score → server/src/services/trust.service.ts
+3. ⏱️ Countdown Retour → POST /api/child/checkin (type: 'arriving')
+4. 🤫 SOS Discret → POST /api/child/sos
+5. 🗺️ Trajet Intelligent → geofence.service.ts + routes table
+6. 👴 Cercle Élargi → table circle
 
-| Repo | Pattern extrait | Utilisé dans Kido |
-|------|----------------|-------------------|
-| boom-contact | Drizzle ORM, Socket.io, JWT token_version, helmet, rate-limit, Dockerfile multi-stage | ✅ Tout |
-| winwin-v2 | Multi-agent system (Tina/Sophie/etc.), LLM router, crash monitor | ✅ Luna agent |
-| winwin-voice-agent | Deepgram STT + Anthropic + Cartesia TTS pipeline | ✅ VoiceCheck |
-| planneo | useVoiceAgent hook React, VAD, audio queue | 🔜 Client |
-| peps-v2-pwa | Capacitor iOS/Android, Face ID, Framer Motion | 🔜 Client |
-| swissrh | SSO cross-app JWT, Crash Monitor, Infomaniak Jelastic | ✅ Monitor + 🔜 PEP's SSO |
-| umbra/merito | Swiss hosting nLPD, AES-256, Magic link | ✅ Architecture |
-| soluris | pgvector + Cohere embeddings comportementaux | 🔜 Luna v2 |
-| moneasy | HMAC cross-app, Magic link, WebAuthn | 🔜 Auth v2 |
-| wolf-saas | Magic token, pgEnum, Drizzle pattern | ✅ Schema |
-| tournepage | PII architecture, S3 Infomaniak, docx | 🔜 Export |
-| devispro | Claude Vision OCR, S3 | 🔜 Feature |
-| neo-synergy-hub | Manifeste inter-apps | 🔜 Distribution |
+## 🚀 4 Concepts Révolutionnaires
+1. Le Pacte Familial → table pactes
+2. L'Échelle d'Autonomie → TRUST_LEVELS dans shared/types
+3. Le Pouls Familial → POST /api/child/pulse (21h quotidien)
+4. Moteur de Négociation → POST /api/child/negotiate
 
-## Idées révolutionnaires validées (niveau suivant)
-1. 🤖 Luna — IA guardian, pattern multi-agents winwin-v2
-2. 🎙️ VoiceCheck — "Je rentre dans 20 min" → AI parse
-3. 📱 Capacitor — GPS background natif iOS/Android
-4. 🔗 PEP's SafeNetwork — commerçants = zones sécurisées
-5. 🧠 Behavioral Memory — pgvector + profil comportemental
-6. 🇨🇭 Swiss-by-Design — Infomaniak Jelastic nLPD
-7. 🎭 Face ID Auth — WebAuthn pour parents (pattern moneasy)
-
-## Variables env requises
-DATABASE_URL, JWT_SECRET, PORT
-ANTHROPIC_API_KEY (Luna + VoiceCheck)
-DEEPGRAM_API_KEY (transcription vocale)
-FIREBASE_* (push FCM)
-STRIPE_SECRET_KEY (billing annuel)
-RESEND_API_KEY (emails)
+## 📋 Best Practices — 58 repos NEO analysés
+| Repo | Pattern extrait |
+|------|----------------|
+| winwin-v2 | Multi-agents IA, crash monitor, tRPC |
+| winwin-voice-agent | Deepgram STT + Anthropic + Cartesia TTS |
+| peps-v2-pwa | Capacitor, Framer Motion, SMTP quota alert, WebAuthn |
+| swissrh | SSO cross-app, crash monitor, Jelastic CH |
+| boom-contact | Drizzle, Socket.io, Zod, helmet, rate-limit, Dockerfile |
+| soluris | pgvector behavioral memory |
+| moneasy | HMAC cross-app, magic link |
+| wolf-saas | Magic token, pgEnum |
+| tournepage | PII Swiss architecture |
+| neo-synergy-hub | Manifeste inter-apps |
