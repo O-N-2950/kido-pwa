@@ -14,11 +14,11 @@
 - Luna n'appelle plus Anthropic en direct. Service `server/src/services/ai.service.ts` :
   - Priorité **IA Infomaniak** (AI Tools, produit 109625, modèle `mistral3`, hébergé 🇨🇭) ; **fallback Anthropic** (Claude Haiku) si indispo.
   - Chaque appel loggé dans **`ai_usage`** (provider, model, tokens in/out, total, **est_cost_chf**, feature, date).
+- **Dashboard KPI** : `GET /api/admin/ai-kpi?key=…` (SSR, protégé par `ADMIN_KEY` en env) + `GET /api/admin/ai-usage` (JSON agrégé). Routeur `server/src/routes/admin.ts`.
 - Tarifs intégrés (CHF/1M tokens) : mistral3 0.30 in / 0.40 out → un résumé Luna ≈ **0.00006 CHF**.
 - Secrets uniquement en **variables d'env Jelastic** (jamais dans le repo) : INFOMANIAK_AI_PRODUCT_ID, INFOMANIAK_AI_MODEL, INFOMANIAK_AI_TOKEN, ANTHROPIC_API_KEY (fallback), DATABASE_URL, JWT_SECRET, SMTP_*.
 
 ## Prochaines étapes possibles
-- Endpoint + tableau de bord KPI (agrégation `ai_usage` par jour / feature / coût).
 - Redirection http→https sur le LB (canonical SEO).
 - Brancher d'autres features sur `aiComplete()` au besoin.
 
