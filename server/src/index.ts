@@ -23,6 +23,7 @@ import { familyRouter }         from './routes/family.js';
 import { createLocationRouter } from './routes/location.js';
 import { createChildRouter }    from './routes/child.js';
 import { createVoiceRouter }    from './routes/voice.js';
+import { createAdminRouter }    from './routes/admin.js';
 import { startCrashMonitor, getMonitorStatus } from './monitoring/crash-monitor.js';
 import path from 'path';
 import fs from 'fs';
@@ -116,6 +117,7 @@ app.use('/api/family',   familyRouter);
 app.use('/api/location', createLocationRouter(io));
 app.use('/api/child',    createChildRouter(io));
 app.use('/api/voice',    createVoiceRouter(io));
+app.use('/api/admin',    createAdminRouter());
 
 // ── Serve built PWA client (SPA) ───────────────────────────────
 const __dir = path.dirname(fileURLToPath(import.meta.url));
