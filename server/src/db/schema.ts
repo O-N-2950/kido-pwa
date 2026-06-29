@@ -3,8 +3,18 @@
 // Pattern: boom-contact → typed JSONB, proper indexes, migrations
 // ============================================================
 import {
-  pgTable, text, timestamp, jsonb, varchar,
-  integer, boolean, index, real, serial, uniqueIndex,
+  pgTable,
+  text,
+  timestamp,
+  jsonb,
+  varchar,
+  integer,
+  boolean,
+  index,
+  real,
+  serial,
+  uniqueIndex,
+  numeric,
 } from 'drizzle-orm/pg-core';
 import type { Location, MoodValue } from '@kido/shared';
 
@@ -206,4 +216,22 @@ export const pulses = pgTable('pulses', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 }, (t) => ({
   userDayIdx: index('pulses_user_day_idx').on(t.userId, t.createdAt),
+}));
+
+
+// ── AI Usage (KPI coûts IA — souverain Infomaniak / fallback Anthropic) ──
+export const aiUsage = pgTable('ai_usage', {
+  id:               serial('id').primaryKey(),
+  familyId:         varchar('family_id', { length: 20 }).references(() => families.id, { onDelete: 'set null' }),
+  feature:          text('feature').notNull(),
+  provider:         text('provider').notNull(),
+  model:            text('model').notNull(),
+  promptTokens:     integer('prompt_tokens').notNull().default(0),
+  completionTokens: integer('completion_tokens').notNull().default(0),
+  totalTokens:      integer('total_tokens').notNull().default(0),
+  estCostChf:       numeric('est_cost_chf', { precision: 12, scale: 6 }).notNull().default('0'),
+  createdAt:        timestamp('created_at').notNull().defaultNow(),
+}, (t) => ({
+  createdIdx: index('ai_usage_created_idx').on(t.createdAt),
+  featureIdx: index('ai_usage_feature_idx').on(t.feature),
 }));
