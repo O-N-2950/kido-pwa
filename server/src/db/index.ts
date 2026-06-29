@@ -13,7 +13,7 @@ const sql = postgres(DATABASE_URL, {
   max: 10,
   idle_timeout: 20,
   connect_timeout: 10,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl: process.env.DB_SSL === 'require' ? { rejectUnauthorized: false } : false,
 });
 
 export const db = drizzle(sql, { schema });
