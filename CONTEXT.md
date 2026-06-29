@@ -1,3 +1,29 @@
+# 🟢 ÉTAT PRODUCTION — vivokid.ch (MAJ 29 juin 2026)
+
+**vivokid.ch est EN LIGNE** — Infomaniak Jelastic, env `vivokid-prod`.
+
+## Infra
+- Topologie : Node 22 (cp) + Nginx LB (bl) + PostgreSQL 16 (sqldb), région `user2_hn_group`.
+- HTTPS : certificat **Let's Encrypt** (CN=vivokid.ch + www), addon LE sur le LB (renouv. auto).
+- DNS : A apex+www → IP partagées de l'env ; e-mail (SPF/DKIM/DMARC/MX) déjà posé par Infomaniak.
+- Base `kido` : 15 tables (14 métier + `ai_usage`).
+- PWA servi par le serveur Express (static + fallback SPA) → voir `server/src/index.ts`.
+- DB : **SSL off sur réseau privé Jelastic** (`DB_SSL` configurable, off par défaut) → `server/src/db/index.ts`.
+
+## 🤖 Luna — IA souveraine + KPI coûts
+- Luna n'appelle plus Anthropic en direct. Service `server/src/services/ai.service.ts` :
+  - Priorité **IA Infomaniak** (AI Tools, produit 109625, modèle `mistral3`, hébergé 🇨🇭) ; **fallback Anthropic** (Claude Haiku) si indispo.
+  - Chaque appel loggé dans **`ai_usage`** (provider, model, tokens in/out, total, **est_cost_chf**, feature, date).
+- Tarifs intégrés (CHF/1M tokens) : mistral3 0.30 in / 0.40 out → un résumé Luna ≈ **0.00006 CHF**.
+- Secrets uniquement en **variables d'env Jelastic** (jamais dans le repo) : INFOMANIAK_AI_PRODUCT_ID, INFOMANIAK_AI_MODEL, INFOMANIAK_AI_TOKEN, ANTHROPIC_API_KEY (fallback), DATABASE_URL, JWT_SECRET, SMTP_*.
+
+## Prochaines étapes possibles
+- Endpoint + tableau de bord KPI (agrégation `ai_usage` par jour / feature / coût).
+- Redirection http→https sur le LB (canonical SEO).
+- Brancher d'autres features sur `aiComplete()` au besoin.
+
+---
+
 # VIVOKID — Contexte Projet
 > Mis à jour : Session 4 — Domaine vivokid.ch acheté, identité VIVOkid confirmée
 
