@@ -6,6 +6,7 @@ import { Router } from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import { LocationSchema } from '@kido/shared';
 import { db, schema } from '../db/index.js';
+import { eq } from 'drizzle-orm';
 import { checkGeofences } from '../services/geofence.service.js';
 import type { Server as SocketServer } from 'socket.io';
 
@@ -47,7 +48,7 @@ export function createLocationRouter(io: SocketServer) {
     if (req.user!.role !== 'parent') return res.status(403).end();
 
     const locs = await db.select().from(schema.locations)
-      .where(schema.locations.userId === childId as any)
+      .where(eq(schema.locations.userId, childId))
       .orderBy(schema.locations.recordedAt)
       .limit(500);
 

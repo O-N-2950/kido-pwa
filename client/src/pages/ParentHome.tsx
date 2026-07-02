@@ -1,12 +1,13 @@
 // ============================================================
 // VIVOKID — Parent Home Dashboard
 // ============================================================
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Moon, Sparkles } from 'lucide-react';
 import { useStore } from '../lib/store';
 import { ChildCard } from '../components/shared/ChildCard';
 import { useFamily } from '../hooks/useFamily';
+import { usePush } from '../hooks/usePush';
 
 const GREETINGS = ['Bonjour', 'Buongiorno', 'Guten Morgen', 'Good morning'];
 
@@ -16,6 +17,7 @@ export function ParentHome() {
   const unread = alerts.filter(a => !a.read).length;
   const sosAlerts = alerts.filter(a => a.type === 'sos' && !a.read);
   useFamily();
+  const { status: pushStatus, subscribe } = usePush();
 
   const hour = new Date().getHours();
   const timeGreet = hour < 12 ? greet : hour < 18 ? 'Bonjour' : 'Bonsoir';
@@ -79,6 +81,25 @@ export function ParentHome() {
 
       {/* Content */}
       <div className="flex-1 px-4 py-5 pb-24 overflow-y-auto">
+        {/* Push activation banner */}
+        <AnimatePresence>
+          {(pushStatus === 'default' || pushStatus === 'granted') && (
+            <motion.button
+              initial={{ opacity:0, y:-8 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, height:0 }}
+              onClick={subscribe}
+              className="w-full mb-4 bg-teal-600 text-white rounded-2xl p-4 text-left shadow-teal">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🔔</span>
+                <div className="flex-1">
+                  <p className="font-bold text-sm">Activez les alertes SOS</p>
+                  <p className="text-teal-100 text-xs">Indispensable : recevez les alertes même app fermée. Données 100% en Suisse.</p>
+                </div>
+                <span className="bg-white text-teal-700 text-xs font-bold px-3 py-1.5 rounded-lg">Activer</span>
+              </div>
+            </motion.button>
+          )}
+        </AnimatePresence>
+
         {/* Luna suggestion */}
         <motion.button
           initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }}

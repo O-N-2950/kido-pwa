@@ -71,7 +71,7 @@ async function analyzeChild(child: typeof schema.users.$inferSelect, familyId: s
             type: 'mood_pattern', severity: 'attention',
             title: `${child.name} semble souvent triste le ${DAYS[+dow]}`,
             body: `Humeur moyenne de ${avg.toFixed(1)}/5 sur les ${vals.length} derniers ${DAYS[+dow]}s. Ce pattern mérite attention.`,
-            suggestedAction: 'Discuter en famille de ce que ${child.name} vit le ${DAYS[+dow]}',
+            suggestedAction: `Discuter en famille de ce que ${child.name} vit le ${DAYS[+dow]}`,
           });
         }
       }
@@ -91,7 +91,7 @@ async function analyzeChild(child: typeof schema.users.$inferSelect, familyId: s
         type: 'checkin_gap', severity: 'info',
         title: `${child.name} n'a plus envoyé de check-in depuis ${Math.floor(daysSince)} jours`,
         body: `Les check-ins sont un bon signe d'engagement. Un rappel doux pourrait aider.`,
-        suggestedAction: 'Envoyer un message bienveillant à ${child.name}',
+        suggestedAction: `Envoyer un message bienveillant à ${child.name}`,
       });
     }
   }
@@ -156,6 +156,6 @@ export async function lunaRealtime(
       title: `${child[0]?.name ?? 'Votre enfant'} se déplace à ${(speed * 3.6).toFixed(0)} km/h`,
       body: 'Cette vitesse suggère un déplacement en véhicule. Vérifiez que tout va bien.',
       at: new Date().toISOString(),
-    } as LunaObservation);
+    } as unknown as LunaObservation);
   }
 }

@@ -56,7 +56,7 @@ export async function transcribeAudio(audioBuffer: Buffer, mimeType = 'audio/web
       'Authorization': `Token ${apiKey}`,
       'Content-Type': mimeType,
     },
-    body: audioBuffer,
+    body: new Uint8Array(audioBuffer),
   });
 
   if (!response.ok) throw new Error(`Deepgram error: ${response.status}`);

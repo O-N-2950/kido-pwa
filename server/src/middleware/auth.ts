@@ -17,7 +17,7 @@ export interface JwtPayload {
 }
 
 export function signToken(payload: JwtPayload, expiresIn = '7d'): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+  return jwt.sign(payload as object, JWT_SECRET, { expiresIn } as jwt.SignOptions);
 }
 
 export function signRefreshToken(payload: JwtPayload): string {

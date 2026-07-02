@@ -3,8 +3,9 @@
 // Haversine distance check, triggered on each GPS update
 // ============================================================
 import { db, schema } from '../db/index.js';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, desc } from 'drizzle-orm';
 import { applyTrustAction } from './trust.service.js';
+import { pushGeofence } from './push.service.js';
 import type { Server as SocketServer } from 'socket.io';
 
 // Haversine formula — distance in metres
@@ -41,7 +42,7 @@ export async function checkGeofences(
         eq(schema.geofenceEvents.userId, userId),
         eq(schema.geofenceEvents.geofenceId, zone.id),
       ))
-      .orderBy(schema.geofenceEvents.createdAt)
+      .orderBy(desc(schema.geofenceEvents.createdAt))
       .limit(1);
 
     const wasInside = lastEvent?.eventType === 'enter';
@@ -55,6 +56,11 @@ export async function checkGeofences(
       io.to(`family:${familyId}`).emit('geofence:event', {
         userId, zoneName: zone.name, zoneType: zone.type, eventType, at: new Date().toISOString(),
       });
+
+      // 📲 Push aux parents (app fermée incluse)
+      const [child] = await db.select({ name: schema.users.name })
+        .from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+      pushGeofence(familyId, child?.name ?? 'Votre enfant', zone.name, inside).catch(() => {});
 
       // Trust score: arrived at school/home zone on time → +points handled by countdown service
       if (inside && zone.type === 'home') {

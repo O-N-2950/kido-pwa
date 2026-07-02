@@ -1,4 +1,11 @@
 {
-  "compilerOptions": { "target": "ES2022", "module": "ESNext", "moduleResolution": "bundler" },
-  "include": ["vite.config.ts"]
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "composite": true
+  },
+  "include": [
+    "vite.config.ts"
+  ]
 }

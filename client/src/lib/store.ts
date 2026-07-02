@@ -18,7 +18,7 @@ interface AppStore {
   user:User|null; accessToken:string|null;
   setAuth:(u:User,t:string)=>void; clearAuth:()=>void;
   children:ChildState[]; setChildren:(c:ChildState[])=>void; updateChild:(id:string,d:Partial<ChildState>)=>void;
-  alerts:Alert[]; addAlert:(a:Alert)=>void; markRead:(id:string)=>void;
+  alerts:Alert[]; addAlert:(a:Alert)=>void; markRead:(id:string)=>void; clearAlerts:()=>void;
   selectedChildId:string|null; setSelectedChild:(id:string|null)=>void;
   activeTab:string; setActiveTab:(t:string)=>void;
   lunaOpen:boolean; setLunaOpen:(v:boolean)=>void;
@@ -32,6 +32,7 @@ export const useStore = create<AppStore>()(persist((set)=>({
   updateChild:(id,data)=>set(s=>({children:s.children.map(c=>c.id===id?{...c,...data}:c)})),
   alerts:[], addAlert:a=>set(s=>({alerts:[a,...s.alerts].slice(0,50)})),
   markRead:id=>set(s=>({alerts:s.alerts.map(a=>a.id===id?{...a,read:true}:a)})),
+  clearAlerts:()=>set({alerts:[]}),
   selectedChildId:null, setSelectedChild:id=>set({selectedChildId:id}),
   activeTab:'home', setActiveTab:t=>set({activeTab:t}),
   lunaOpen:false, setLunaOpen:v=>set({lunaOpen:v}),

@@ -9,6 +9,7 @@ import { db, schema } from '../db/index.js';
 import { requireAuth } from '../middleware/auth.js';
 import { MoodSchema, CheckinSchema } from '@kido/shared';
 import { applyTrustAction } from '../services/trust.service.js';
+import { pushSOS } from '../services/push.service.js';
 import type { Server as SocketServer } from 'socket.io';
 
 export function createChildRouter(io: SocketServer) {
@@ -89,6 +90,11 @@ export function createChildRouter(io: SocketServer) {
       userId, type, lat, lng, id: sos.id, at: sos.createdAt,
       priority: 'CRITICAL',
     });
+
+    // 🚨 Push haute priorité aux parents (fonctionne même app fermée)
+    const [child] = await db.select({ name: schema.users.name })
+      .from(schema.users).where(eq(schema.users.id, userId)).limit(1);
+    pushSOS(familyId, child?.name ?? 'Votre enfant', lat, lng).catch(console.error);
 
     return res.status(201).json({ id: sos.id });
   });

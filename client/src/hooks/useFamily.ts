@@ -5,7 +5,6 @@ import { useEffect, useCallback } from 'react';
 import { api } from '../lib/api';
 import { getSocket } from '../lib/socket';
 import { useStore } from '../lib/store';
-import type { Alert } from '../lib/store';
 
 export function useFamily() {
   const { user, setChildren, updateChild, addAlert } = useStore();
@@ -69,6 +68,12 @@ export function useFamily() {
       addAlert({ id:`luna-${Date.now()}`, type:'luna', title:obs.title, body:obs.body, childId:obs.childId, at:obs.at, read:false });
     });
 
+    // Countdown expiré (scheduler serveur)
+    io.on('countdown:expired', ({ userId, name, at }) => {
+      updateChild(userId, { activeCountdown: null });
+      addAlert({ id:`cde-${Date.now()}`, type:'countdown', title:`⏱️ ${name} n'est pas encore arrivé(e)`, body:'Le timer a expiré — un petit message pour vérifier ?', childId:userId, at, read:false });
+    });
+
     // Speed alert (vehicle detected)
     io.on('speed:alert', ({ userId, speed, at }) => {
       addAlert({ id:`speed-${Date.now()}`, type:'speed', title:`⚡ Déplacement rapide détecté (${(speed*3.6).toFixed(0)} km/h)`, childId:userId, at, read:false });
@@ -78,7 +83,7 @@ export function useFamily() {
       io.off('location:update'); io.off('mood:update');
       io.off('checkin:new'); io.off('checkin:resolved');
       io.off('sos:alert'); io.off('geofence:event');
-      io.off('luna:realtime'); io.off('speed:alert');
+      io.off('luna:realtime'); io.off('speed:alert'); io.off('countdown:expired');
     };
   }, [user, refresh, updateChild, addAlert]);
 

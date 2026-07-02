@@ -38,7 +38,7 @@ export function createVoiceRouter(io: SocketServer) {
 
       // Emit to family
       io.to(`family:${familyId}`).emit('checkin:voice', {
-        userId, transcript, ...parsed, id: checkin.id, at: checkin.createdAt,
+        userId, ...parsed, transcript, id: checkin.id, at: checkin.createdAt,
       });
 
       await applyTrustAction(userId, 'checkin_sent');

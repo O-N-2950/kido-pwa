@@ -235,3 +235,19 @@ export const aiUsage = pgTable('ai_usage', {
   createdIdx: index('ai_usage_created_idx').on(t.createdAt),
   featureIdx: index('ai_usage_feature_idx').on(t.feature),
 }));
+
+
+// ── Push Subscriptions (Web Push VAPID — souverain, zéro Firebase) ──
+export const pushSubscriptions = pgTable('push_subscriptions', {
+  id:        serial('id').primaryKey(),
+  userId:    varchar('user_id', { length: 20 }).notNull().references(() => users.id, { onDelete: 'cascade' }),
+  endpoint:  text('endpoint').notNull(),
+  p256dh:    text('p256dh').notNull(),
+  auth:      text('auth').notNull(),
+  userAgent: text('user_agent'),
+  active:    boolean('active').notNull().default(true),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+}, (t) => ({
+  userIdx:     index('push_subs_user_idx').on(t.userId),
+  endpointIdx: uniqueIndex('push_subs_endpoint_idx').on(t.endpoint),
+}));

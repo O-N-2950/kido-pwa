@@ -23,6 +23,8 @@ import { familyRouter }         from './routes/family.js';
 import { createLocationRouter } from './routes/location.js';
 import { createChildRouter }    from './routes/child.js';
 import { createVoiceRouter }    from './routes/voice.js';
+import { pushRouter }           from './routes/push.js';
+import { startScheduler }       from './jobs/scheduler.js';
 import { createAdminRouter }    from './routes/admin.js';
 import { startCrashMonitor, getMonitorStatus } from './monitoring/crash-monitor.js';
 import path from 'path';
@@ -35,9 +37,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'kido-dev-secret-change-in-prod';
 
 const ALLOWED_ORIGINS = [
   process.env.CLIENT_URL,
-  'https://kido.family',
-  'https://www.kido.family',
-  'https://app.kido.family',
+  'https://vivokid.ch',
+  'https://www.vivokid.ch',
+  'https://app.vivokid.ch',
   'capacitor://localhost',    // Capacitor iOS
   'https://localhost',         // Capacitor Android
   ...(NODE_ENV !== 'production' ? ['http://localhost:5173', 'http://localhost:4173'] : []),
@@ -132,6 +134,7 @@ app.use('/api/location', createLocationRouter(io));
 app.use('/api/child',    createChildRouter(io));
 app.use('/api/voice',    createVoiceRouter(io));
 app.use('/api/admin',    createAdminRouter());
+app.use('/api/push',     pushRouter);
 
 // ── Serve built PWA client (SPA) ───────────────────────────────
 const __dir = path.dirname(fileURLToPath(import.meta.url));
@@ -168,6 +171,8 @@ http.listen(PORT, '0.0.0.0', async () => {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
   // Crash monitor — pattern swissrh
   await startCrashMonitor();
+  // Scheduler — Luna 21h00 · Pouls 20h30 · Countdown watcher (pattern winwin-v2)
+  startScheduler(io);
 });
 
 export default app;
