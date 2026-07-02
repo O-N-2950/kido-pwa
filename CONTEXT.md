@@ -103,3 +103,10 @@
 | wolf-saas | Magic token, pgEnum |
 | tournepage | PII Swiss architecture |
 | neo-synergy-hub | Manifeste inter-apps |
+
+## ✅ Sprint P0 déployé (2 juillet 2026)
+- 🔔 Web Push souverain VAPID live (`/api/push/vapid` → enabled:true) — ZÉRO Google/Firebase
+- ⏰ Scheduler actif: Luna 21h00, Pouls 20h30, countdown watcher 60s (Europe/Zurich)
+- 🐛 5 bugs corrigés (geofence desc, location eq, luna templates, CORS vivokid, voice types)
+- 🧪 10 tests Vitest verts · builds 0 erreur TS
+- 🔑 Clés VAPID en vars d'env Jelastic (cp) · migration 002 appliquée (push_subscriptions)
